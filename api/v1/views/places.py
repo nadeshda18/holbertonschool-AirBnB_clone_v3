@@ -7,6 +7,7 @@ from models.user import User
 from models.place import Place
 from api.v1.views import app_views
 
+
 @app_views.route('/cities/<city_id>/places', methods=['GET'])
 def get_places(city_id):
     """Retrieve all Place objects of a City"""
@@ -16,6 +17,7 @@ def get_places(city_id):
     places = [place.to_dict() for place in city.places]
     return jsonify(places)
 
+
 @app_views.route('/places/<place_id>', methods=['GET'])
 def get_place(place_id):
     """Retrieve a specific Place object"""
@@ -23,6 +25,7 @@ def get_place(place_id):
     if place is None:
         abort(404)
     return jsonify(place.to_dict())
+
 
 @app_views.route('/places/<place_id>', methods=['DELETE'])
 def delete_place(place_id):
@@ -33,6 +36,7 @@ def delete_place(place_id):
     storage.delete(place)
     storage.save()
     return jsonify({}), 200
+
 
 @app_views.route('/cities/<city_id>/places', methods=['POST'])
 def create_place(city_id):
@@ -52,6 +56,7 @@ def create_place(city_id):
     place = Place(city_id=city_id, **request.get_json())
     place.save()
     return jsonify(place.to_dict()), 201
+
 
 @app_views.route('/places/<place_id>', methods=['PUT'])
 def update_place(place_id):
