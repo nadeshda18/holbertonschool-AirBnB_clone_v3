@@ -2,7 +2,6 @@
 """
 Contains the TestFileStorageDocs classes
 """
-
 from datetime import datetime
 import inspect
 import models
@@ -18,7 +17,12 @@ import json
 import os
 import pep8
 import unittest
+<<<<<<< HEAD
 from unittest.mock import patch, MagicMock
+=======
+
+
+>>>>>>> e42cd00a84480a091c74f1476960dc4bc7acccf4
 FileStorage = file_storage.FileStorage
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
