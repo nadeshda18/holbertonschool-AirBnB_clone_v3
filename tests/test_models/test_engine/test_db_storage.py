@@ -17,8 +17,7 @@ import json
 import os
 import pep8
 import unittest
-
-
+from unittest.mock import patch, MagicMock
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
@@ -110,3 +109,27 @@ class TestFileStorage(unittest.TestCase):
         models.storage.save()
         new_count = models.storage.count()
         self.assertEqual(initial_count + 1, new_count)
+
+
+class TestDBStorage(unittest.TestCase):
+    def setUp(self):
+        self.storage = DBStorage()
+
+    @patch.object(DBStorage, 'all')
+    def test_get(self, mock_all):
+        mock_all.return_value = {'1': MagicMock(
+            id='1'), '2': MagicMock(id='2')}
+        result = self.storage.get('DummyClass', '1')
+        self.assertEqual(result.id, '1')
+        self.assertIsNone(self.storage.get('DummyClass', '3'))
+
+    @patch.object(DBStorage, 'all')
+    def test_count(self, mock_all):
+        mock_all.return_value = {'1': MagicMock(), '2': MagicMock()}
+        self.assertEqual(self.storage.count(), 2)
+        mock_all.return_value = {'1': MagicMock()}
+        self.assertEqual(self.storage.count('DummyClass'), 1)
+
+
+if __name__ == '__main__':
+    unittest.main()
